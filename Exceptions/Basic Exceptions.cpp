@@ -3,27 +3,30 @@
 
 using namespace std;
 
-class MyException: public exception {
-public:
-	virtual const char* what () const throw() {
-		return "Something bad happened!";
-	}
-};
+void goesWrong() {
+	bool error1Detected = true;
+	bool error2Detected = false;
 
-class Test {
-public:
-	void goesWrong () {
-		throw MyException ();
+	if (error1Detected) {
+		throw bad_alloc();
 	}
-};
 
-int main () {
-	Test test;
+	if (error2Detected) {
+		throw exception();
+	}
+}
+
+int main() {
+
+	// Place sub classes before parent classes.
+	// If parent class comes first wrong catch block is used due to polymorphism
 
 	try {
-		test.goesWrong ();
-	} catch (MyException e) {
-		cout << e.what () << endl;
+		goesWrong();
+	} catch (bad_alloc &e) {
+		cout << "Catching bad_alloc: " << e.what() << endl;
+	} catch (exception &e) {
+		cout << "Catching exception: " << e.what() << endl;
 	}
 
 	return 0;
