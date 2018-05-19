@@ -1,23 +1,30 @@
 #include <iostream>
+#include <exception>
 
 using namespace std;
 
-class CanGoWrong {
+class MyException: public exception {
 public:
-	CanGoWrong () {
-		char *pMemory = new char[999999999];
-		delete[] pMemory;
+	virtual const char* what () const throw() {
+		return "Something bad happened!";
+	}
+};
+
+class Test {
+public:
+	void goesWrong () {
+		throw MyException ();
 	}
 };
 
 int main () {
-	try {
-		CanGoWrong wrong;
-	} catch (bad_alloc &e) {
-		cout << "Caught exception: " << e.what () << endl;
-	}
+	Test test;
 
-	cout << "still running" << endl;
+	try {
+		test.goesWrong ();
+	} catch (MyException e) {
+		cout << e.what () << endl;
+	}
 
 	return 0;
 }
