@@ -1,4 +1,6 @@
 #include <iostream>
+#include <exception>
+#include <string> // Need to 
 
 using namespace std;
 
@@ -29,7 +31,7 @@ int main () {
 	} catch (char const * e) {
 		cout << "Error Occurred: " << e << endl;
 	} catch (string &e) {
-		cout << "Need help now... " << e.c_str() << endl;
+		cout << "Need help now... " << e << endl;
 	}
 
 	cout << "result: " << result << endl;
